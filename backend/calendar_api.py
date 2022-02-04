@@ -71,3 +71,4 @@ def put_calendar_events(jsonFile):
 
 if __name__ == '__main__':
     authenticate()
+    print(get_calendar_events())
