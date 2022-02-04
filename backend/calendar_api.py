@@ -29,7 +29,6 @@ def authenticate():
         # Save the credentials for the next run
         with open('token.json', 'w') as token:
             token.write(creds.to_json())
-
     return creds
 
 def get_calendar_events():
@@ -43,7 +42,6 @@ def get_calendar_events():
                                               maxResults=10, singleEvents=True,
                                               orderBy='startTime').execute()
         events = events_result.get('items', [])
-
         if not events:
             logging.info('No upcoming events found.')
             return
@@ -63,11 +61,10 @@ def put_calendar_events(jsonFile):
     try:
         service = build('calendar', 'v3', credentials=creds)
         event = service.events().insert(calendarId='primary', body=jsonFile).execute()
+        logging.info('Event created: %s' % (event.get('htmlLink')))
     except HttpError as error:
         logging.info('An error occurred: %s' % error)
-    logging.info('Event created: %s' % (event.get('htmlLink')))
-
 
 
 if __name__ == '__main__':
-    authenticate()
+    logging.basicConfig(level=logging.INFO)

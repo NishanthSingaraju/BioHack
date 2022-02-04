@@ -5,6 +5,7 @@ from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS
 
+import calendar_api
 import period
 
 app = Flask(__name__)
@@ -12,7 +13,6 @@ CORS(app)
 
 UPLOAD_FOLDER = 'data'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 
 @app.route('/api/time')
 def get_current_time():
@@ -27,8 +27,12 @@ def upload_file():
         return {'resultStatus': 'FAILURE'}
     return {'resultStatus': 'SUCCESS'}
 
-
 @app.route('/api/period', methods = ['GET'])
+def get_period():
+    period_file = os.path.join(UPLOAD_FOLDER, "period.csv")
+    return period.read_period_file(period_file)
+
+@app.route('/api/suggestions', methods = ['GET'])
 def get_suggestions():
     period_file = os.path.join(UPLOAD_FOLDER,"period.csv")
-    return str(os.path.isfile(period_file))
+    return period.suggestion_pipeline(period_file)

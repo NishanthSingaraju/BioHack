@@ -8,3 +8,5 @@ ACTIVITY_TYPE = {
     "exercise": [{"description": "Lift Weights at the Gym"}],
     "self-care": [{"description": "Eat Ice Cream with the Girls"}],
 }
+
+TOTAL_DAYS = 10
